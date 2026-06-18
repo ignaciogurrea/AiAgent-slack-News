@@ -49,6 +49,9 @@ logs/
 Thumbs.db
 desktop.ini
 
+# ── Local file DB (replaced by a real DB when DB_CREDS_* are set) ────────────
+data/sent-articles.json
+
 # ── Temporary files ───────────────────────────────────────────────────────────
 tmp/
 temp/

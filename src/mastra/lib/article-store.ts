@@ -1,11 +1,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // DB abstraction for persisting sent articles.
 //
-// Plug in a real implementation when DB_CREDS_* env vars are available.
-// Until then the placeholder lets the workflow run end-to-end: it returns an
-// empty "already sent" list (nothing filtered) and logs a warning instead of
-// persisting, so no article is ever silently dropped.
+// Priority order (first match wins):
+//   1. Real DB  — when DB_CREDS_* env vars are present
+//   2. File DB  — local JSON file at data/sent-articles.json (default)
 // ─────────────────────────────────────────────────────────────────────────────
+
+import { FileArticleStore } from './stores/file-article-store';
 
 export interface SentArticle {
   url: string;
@@ -21,38 +22,14 @@ export interface ArticleStore {
   saveArticles(articles: SentArticle[]): Promise<void>;
 }
 
-// ── Placeholder (no DB configured) ───────────────────────────────────────────
-
-class PlaceholderArticleStore implements ArticleStore {
-  async getSentThisWeek(): Promise<string[]> {
-    // TODO: replace with real SELECT WHERE sent_at >= NOW() - INTERVAL '7 days'
-    return [];
-  }
-
-  async saveArticles(articles: SentArticle[]): Promise<void> {
-    // TODO: replace with real INSERT / UPSERT
-    console.warn(
-      '[ArticleStore] DB_CREDS_* not configured — articles not persisted:',
-      articles.map(a => a.url),
-    );
-  }
-}
-
 // ── Factory ───────────────────────────────────────────────────────────────────
-// Add real implementations here as DBs are wired up.
-// Each block should read from DB_CREDS_<PROVIDER>_* env vars.
-//
-// Example skeleton (uncomment and fill when ready):
-//
-//   import { RealDBStore } from './stores/real-db-store';
-//   if (process.env.DB_CREDS_URL) {
-//     return new RealDBStore({
-//       url:      process.env.DB_CREDS_URL,
-//       username: process.env.DB_CREDS_USERNAME,
-//       password: process.env.DB_CREDS_PASSWORD,
-//     });
-//   }
 
 export function createArticleStore(): ArticleStore {
-  return new PlaceholderArticleStore();
+  // TODO: plug in real DB when credentials are ready.
+  // Example:
+  //   if (process.env.DB_CREDS_URL) {
+  //     return new RealDBStore({ url: process.env.DB_CREDS_URL, ... });
+  //   }
+
+  return new FileArticleStore();
 }
