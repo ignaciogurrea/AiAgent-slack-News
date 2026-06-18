@@ -1,0 +1,54 @@
+# ── Dependencies ──────────────────────────────────────────────────────────────
+node_modules/
+
+# ── Build output ──────────────────────────────────────────────────────────────
+dist/
+output.txt
+*.tsbuildinfo
+
+# ── Environment & secrets ─────────────────────────────────────────────────────
+# All .env variants are ignored. Commit .env.example instead.
+.env
+.env.*
+!.env.example
+
+# Explicit extras in case the wildcard is ever bypassed
+*.pem
+*.key
+*.cert
+secrets/
+credentials/
+
+# ── Mastra runtime ────────────────────────────────────────────────────────────
+.mastra/
+
+# ── Database files ────────────────────────────────────────────────────────────
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.duckdb
+*.duckdb.wal
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Claude Code (local settings may contain tokens or permissions) ────────────
+.claude/settings.local.json
+
+# ── Mastra agents cache ───────────────────────────────────────────────────────
+.agents/
+
+# ── Deployment providers ──────────────────────────────────────────────────────
+.netlify/
+.vercel/
+
+# ── OS noise ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Temporary files ───────────────────────────────────────────────────────────
+tmp/
+temp/
