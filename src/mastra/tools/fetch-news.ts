@@ -26,7 +26,7 @@ export const fetchNews = createTool({
       body: JSON.stringify({
         apiKey,
         keyword: 'artificial intelligence',
-        articlesCount: 3,
+        articlesCount: 10,
         articlesSortBy: 'rel',
         lang: 'eng',
       }),
